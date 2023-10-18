@@ -16,6 +16,7 @@ return new class () extends Migration {
             $table->uuid('id')->primary();
             $table->uuid('company_id');
             $table->string('name');
+            $table->string('tax_number')->nullable();
             $table->longText('description')->nullable();
             $table->boolean('active');
             $table->timestamps();

@@ -101,7 +101,6 @@ class CheckController extends Controller
         $user = Auth::user()->toArray();
 
         $this->validate($request, [
-            'user_id' => 'required|string',
             'status' => 'required|string',
             'summary' => 'string',
             'task_id' => 'string',
@@ -112,8 +111,37 @@ class CheckController extends Controller
         ]);
 
         $request->company_id = $user['company_id'];
+        $request->user_id = $user['user_id'];
 
         Check::create($request->toArray());
+
+        return new JsonResponse([
+            'message' => 'success',
+        ]);
+    }
+
+    public function update(Request $request, string $id): JsonResponse
+    {
+        $this->validate($request, [
+            'status' => 'required|string',
+            'summary' => 'string',
+            'task_id' => 'string',
+            'project_id' => 'string',
+            'client_id' => 'string',
+            'date_started' => 'required|string',
+            'date_ended' => 'required|string',
+        ]);
+
+        Check::find($id)->update($request->toArray());
+
+        return new JsonResponse([
+            'message' => 'success',
+        ]);
+    }
+
+    public function delete(string $id): JsonResponse
+    {
+        Check::destroy($id);
 
         return new JsonResponse([
             'message' => 'success',

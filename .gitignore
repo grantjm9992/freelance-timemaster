@@ -1,0 +1,29 @@
+/.idea
+/.vscode
+/.vagrant
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/mysql-data/
+/storage/mongo-data/
+/vendor
+/tools/**/vendor
+Homestead.yaml
+Homestead.json
+auth.json
+.env
+_ide_helper.php
+.phpstorm.meta.php
+_ide_helper_models.php
+reports/*
+!reports/.gitkeep
+npm-debug.log
+yarn-error.log
+.phpunit.result.cache
+###> friendsofphp/php-cs-fixer ###
+.php-cs-fixer.cache
+.php_cs
+.php_cs.cache
+###< friendsofphp/php-cs-fixer ###

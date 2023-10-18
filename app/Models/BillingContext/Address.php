@@ -1,18 +1,24 @@
 <?php
 
-namespace App\Models\TimeTrackingContext;
+namespace App\Models\BillingContext;
 
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CheckApprovers extends Model
+class Address extends Model
 {
     use HasFactory;
     use Uuids;
 
     protected $fillable = [
         'company_id',
-        'user_id',
+        'type',
+        'resource_id',
+        'address',
+        'city',
+        'county',
+        'country',
+        'postcode',
     ];
 }

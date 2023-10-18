@@ -34,6 +34,9 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       cron \
       sudo \
       libzip-dev \
+      libcurl4-openssl-dev  \
+      pkg-config  \
+      libssl-dev \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
@@ -46,6 +49,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     && rm -rf /var/list/apt/* \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
+
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # disable default site and delete all default files inside APP_HOME
 RUN a2dissite 000-default.conf

@@ -93,6 +93,14 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'host' => env('MONGO_HOST', 'mongodb'),
+            'port' => env('MONGO_PORT', 27017),
+            'database' => env('MONGO_DATABASE', 'laravel'),
+            'username' => env('MONGO_USERNAME', 'admin'),
+            'password' => env('MONGO_PASSWORD', 'p4ssw0rd'),
+        ],
 
     ],
 

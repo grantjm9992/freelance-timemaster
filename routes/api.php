@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BillingContext\InvoiceController;
 use App\Http\Controllers\CoreContext\AuthController;
 use App\Http\Controllers\CoreContext\CompanyController;
 use App\Http\Controllers\CoreContext\RoleController;
@@ -54,6 +55,10 @@ Route::middleware('jwt.verify')->group(function() {
     });
 
     Route::middleware('subscription')->group(function () {
+        Route::controller( InvoiceController::class)->prefix('invoices/')->group(function() {
+            Route::post('', 'create');
+            Route::get('', 'list');
+        });
 
         Route::controller(UsersController::class)->prefix('users/')->group(function() {
             Route::get('', 'listAll');

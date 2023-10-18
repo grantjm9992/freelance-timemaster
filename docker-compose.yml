@@ -48,6 +48,20 @@ services:
       networks:
         - laravel
 
+    mongodb:
+      image: mongo:latest
+      container_name: ${COMPOSE_PROJECT_NAME}_mongo
+      restart: always
+      ports:
+        - "27017:27017"
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=admin
+        - MONGO_INITDB_ROOT_PASSWORD=p4ssw0rd
+      volumes:
+        - ./storage/mongo-data:/data/db
+      networks:
+        - laravel
+
 networks:
   laravel:
     name: laravel

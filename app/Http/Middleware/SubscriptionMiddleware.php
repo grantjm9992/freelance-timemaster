@@ -12,6 +12,7 @@ class SubscriptionMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
+/*
         $user = Auth::user()->toArray();
         $subscription = Subscription::query()
             ->where('company_id', $user['company_id'])
@@ -25,7 +26,7 @@ class SubscriptionMiddleware
         if ($subscription->status !== SubscriptionStatus::ACTIVE) {
             return response()->json(['status' => 'no_active_subscription_found'], 403);
         }
-
+*/
         return $next($request);
     }
 }

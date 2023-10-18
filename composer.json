@@ -36,6 +36,7 @@
 		"laravel/sanctum": "^3.0",
 		"laravel/tinker": "^2.7",
 		"mashape/unirest-php": "^3.0",
+		"mongodb/laravel-mongodb": "^3.9",
 		"php-open-source-saver/jwt-auth": "^2.0",
 		"ramsey/uuid": "^4.6",
 		"stripe/stripe-php": "^10.14"
