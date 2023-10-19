@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::connection('mongodb')->create('invoices', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('company_id')->nullable();
             $table->string('user_id')->nullable();
             $table->string('client_id')->nullable();

@@ -31,6 +31,7 @@
 		"backpack/crud": "^5.4",
 		"guzzlehttp/guzzle": "^7.4",
 		"jaybizzle/laravel-migrations-organiser": "^6.2",
+		"konekt/pdf-invoice": "^1.13",
 		"laravel/cashier": "^14.12",
 		"laravel/framework": "^9.19",
 		"laravel/sanctum": "^3.0",

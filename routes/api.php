@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BillingContext\AddressController;
 use App\Http\Controllers\BillingContext\InvoiceController;
 use App\Http\Controllers\CoreContext\AuthController;
 use App\Http\Controllers\CoreContext\CompanyController;
@@ -39,7 +40,9 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('confirm-email', 'validateEmail');
     Route::post('set-password', 'setPassword');
 });
-
+Route::controller( InvoiceController::class)->prefix('invoices/')->group(function() {
+    Route::get('download', 'download');
+});
 Route::middleware('jwt.verify')->group(function() {
 
     Route::controller(CompanyController::class)->prefix('companies/')->group(function() {
@@ -58,6 +61,13 @@ Route::middleware('jwt.verify')->group(function() {
         Route::controller( InvoiceController::class)->prefix('invoices/')->group(function() {
             Route::post('', 'create');
             Route::get('', 'list');
+            // Route::get('download', 'download');
+        });
+        Route::controller( AddressController::class)->prefix('addresses/')->group(function() {
+            Route::post('', 'create');
+            Route::get('', 'list');
+            Route::put('{id}', 'update');
+            // Route::get('download', 'download');
         });
 
         Route::controller(UsersController::class)->prefix('users/')->group(function() {

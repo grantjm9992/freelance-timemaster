@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\TimeTrackingContext;
 
 use App\Http\Controllers\Controller;
+use App\Models\BillingContext\Address;
 use App\Models\TimeTrackingContext\Clients;
 use App\Models\TimeTrackingContext\Projects;
 use Illuminate\Http\JsonResponse;
@@ -17,11 +18,15 @@ class ClientsController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'string|nullable',
+            'invoce_prefix' => 'string|nullable',
+            'tax_number' => 'string|nullable',
         ]);
 
         $client = Clients::create([
             'name' => $request->name,
             'description' => $request->description,
+            'invoce_prefix' => $request->invoce_prefix,
+            'tax_number' => $request->tax_number,
             'company_id' => $user['company_id'],
             'active' => true,
         ]);
@@ -37,6 +42,11 @@ class ClientsController extends Controller
     public function find(string $id): JsonResponse
     {
         $client = Clients::find($id);
+        $address = Address::query()
+            ->where('type', 'CLIENT')
+            ->where('resource_id', $id)
+            ->get()->first();
+        $client['address'] = $address;
 
         return new JsonResponse([
             'message' => 'success',
@@ -64,6 +74,8 @@ class ClientsController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'string|nullable',
+            'invoce_prefix' => 'string|nullable',
+            'tax_number' => 'string|nullable',
             'active' => 'required|boolean',
         ]);
 
@@ -71,6 +83,8 @@ class ClientsController extends Controller
         $client->update([
             'name' => $request->name,
             'description' => $request->description,
+            'invoce_prefix' => $request->invoce_prefix,
+            'tax_number' => $request->tax_number,
             'active' => $request->active,
         ]);
 

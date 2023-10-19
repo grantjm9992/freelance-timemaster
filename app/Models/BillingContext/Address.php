@@ -11,6 +11,8 @@ class Address extends Model
     use HasFactory;
     use Uuids;
 
+    protected $table = 'address';
+
     protected $fillable = [
         'company_id',
         'type',

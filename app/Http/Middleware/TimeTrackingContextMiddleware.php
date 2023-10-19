@@ -12,6 +12,7 @@ class TimeTrackingContextMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
+        /*
         $user = Auth::user()->toArray();
         $subscription = Subscription::query()
             ->where('company_id', $user['company_id'])
@@ -21,6 +22,7 @@ class TimeTrackingContextMiddleware
         if (!in_array(SubscriptionType::TIME_TRACKING, $subscription->types)) {
             return response()->json(['status' => 'error_not_included_in_subscription'], 403);
         }
+        */
 
         return $next($request);
     }

@@ -110,10 +110,10 @@ class CheckController extends Controller
             'date_ended' => 'required|string',
         ]);
 
-        $request->company_id = $user['company_id'];
-        $request->user_id = $user['user_id'];
-
-        Check::create($request->toArray());
+        $requestArray = $request->toArray();
+        $requestArray['user_id'] = $user['id'];
+        $requestArray['company_id'] = $user['company_id'];
+        Check::create($requestArray);
 
         return new JsonResponse([
             'message' => 'success',

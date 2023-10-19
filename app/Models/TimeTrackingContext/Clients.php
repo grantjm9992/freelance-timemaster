@@ -19,6 +19,7 @@ class Clients extends Model
         'company_id',
         'active',
         'tax_number',
+        'invoce_prefix',
     ];
 
     public function projects(): HasMany
