@@ -41,14 +41,42 @@ class InvoiceController
         return new JsonResponse();
     }
 
-    public function update()
-    {}
+    public function update(Request $request, string $id): JsonResponse
+    {
+        $request->validate([
+            'client_id' => 'string',
+            'project_id' => 'string',
+            'task_id' => 'string',
+            'status' => 'string',
+            'recipient' => 'string',
+            'payer' => 'string',
+            'items' => 'array',
+            'total' => 'string',
+            'currency' => 'string',
+            'tax_rate' => 'string',
+            'tax_applied' => 'string',
+            'total_including_tax' => 'string',
+            'create_date' => 'string',
+            'due_date' => 'string',
+            'paid_date' => 'string',
+            'amount_paid' => 'string',
+            'title' => 'string',
+            'description' => 'string',
+        ]);
+
+        $requestArray = $request->toArray();
+        Invoice::find($id)->update($requestArray);
+        return new JsonResponse();
+    }
 
     public function updateStatus()
     {}
 
-    public function delete()
-    {}
+    public function delete(string $id): JsonResponse
+    {
+        Invoice::destroy($id);
+        return new JsonResponse();
+    }
 
     public function download(string $id): string
     {
