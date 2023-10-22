@@ -22,10 +22,8 @@ class SubscriptionController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $request->validate([
-            'number_of_users' => 'required|integer',
             'types' => 'required|array',
             'stripe_token' => 'required|string',
-            'type' => 'required|string',
         ]);
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -56,7 +54,6 @@ class SubscriptionController extends Controller
             'start_date' => $today->format('Y-m-d'),
             'next_renew_date' => $today->addMonth()->format('Y-m-d'),
             'status' => SubscriptionStatus::ACTIVE,
-            'number_of_users' => $request->number_of_users,
         ]);
 
         return response()->json([]);

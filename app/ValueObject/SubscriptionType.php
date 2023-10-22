@@ -8,4 +8,5 @@ class SubscriptionType
     public const HR = 'hr';
     public const CRM = 'crm';
     public const ACADEMY = 'academy';
+    public const BILLING = 'billing';
 }

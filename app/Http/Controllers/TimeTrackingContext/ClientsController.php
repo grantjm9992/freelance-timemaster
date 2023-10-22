@@ -4,8 +4,10 @@ namespace App\Http\Controllers\TimeTrackingContext;
 
 use App\Http\Controllers\Controller;
 use App\Models\BillingContext\Address;
+use App\Models\CoreContext\Subscription;
 use App\Models\TimeTrackingContext\Clients;
 use App\Models\TimeTrackingContext\Projects;
+use App\ValueObject\SubscriptionStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +23,22 @@ class ClientsController extends Controller
             'invoce_prefix' => 'string|nullable',
             'tax_number' => 'string|nullable',
         ]);
+
+        $clients = Clients::query()
+            ->where('company_id', $user['company_id'])
+            ->get()->count();
+
+        if ($clients > 0) {
+            $subscription = Subscription::query()
+                ->where('company_id', $user['company_id'])
+                ->first();
+            if (!$subscription) {
+                return response()->json(['status' => 'error_subscription_needed'], 403);
+            }
+            if ($subscription->status !== SubscriptionStatus::ACTIVE) {
+                return response()->json(['status' => 'error_subscription_inactive'], 403);
+            }
+        }
 
         $client = Clients::create([
             'name' => $request->name,
