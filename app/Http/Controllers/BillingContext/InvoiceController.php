@@ -37,7 +37,6 @@ class InvoiceController
         $requestArray = $request->toArray();
         $requestArray['company_id'] = $user['company_id'];
         $requestArray['user_id'] = $user['id'];
-        $requestArray['recipient'] = $user['id'];
         Invoice::create($requestArray);
         return new JsonResponse();
     }
@@ -51,35 +50,36 @@ class InvoiceController
     public function delete()
     {}
 
-    public function download()
+    public function download(string $id): string
     {
         /** @var Invoice $invoiceEntity */
-        $invoiceEntity = Invoice::query()->get()->first();
+        $invoiceEntity = Invoice::find($id);
         $invoice = new InvoicePrinter();
 
         /* Header settings */
         // $invoice->setLogo("images/sample1.jpg");   //logo image path
         // $invoice->setColor("#007fff");      // pdf color scheme
-        $invoice->setType("Invoice");    // Invoice Type
-        $invoice->setReference($invoiceEntity->getAttribute('invoice_number'));   // Reference
+        $invoice->setType($invoiceEntity->getAttribute('title'));    // Invoice Type
+        $invoice->setReference($invoiceEntity->getAttribute('description'));   // Reference
         $invoice->setDate($invoiceEntity->getAttribute('create_date'));   //Billing Date
         $invoice->setDue($invoiceEntity->getAttribute('due_date'));    // Due Date
-        $invoice->setFrom(explode('|', $invoiceEntity->getAttribute('payer')));
-        $invoice->setTo(explode('|', $invoiceEntity->getAttribute('recipient')));
+        $invoice->setFrom(explode(',', $invoiceEntity->getAttribute('payer')));
+        $invoice->setTo(explode(',', $invoiceEntity->getAttribute('recipient')));
         foreach ($invoiceEntity->getAttribute('items') as $item) {
-            $invoice->addItem($item['description'], null, $item['quantity'], $item['tax'], $item['price'], null, $item['total']);
+            $invoice->addItem(
+                $item['description'], null, $item['quantity'], null, $item['unitCost'], null, $item['unitCost']*$item['quantity']);
         }
 
-        $invoice->addTotal("Total", $invoiceEntity->total, is_null($invoiceEntity->tax_rate));
+        $invoice->addTotal("Total", $invoiceEntity->sub_total, is_null($invoiceEntity->tax_rate));
         if ($invoiceEntity->tax_rate) {
-            $invoice->addTotal("VAT $invoiceEntity->tax_rate%",$invoiceEntity->tax_applied);
+            $invoice->addTotal("VAT $invoiceEntity->tax_rate%", $invoiceEntity->tax_applied);
             $invoice->addTotal("Total due", $invoiceEntity->total_including_tax,true);
         }
 
         $invoice->addTitle("Important Notice");
         $invoice->addParagraph("No item will be replaced or refunded if you don't have the invoice with you.");
 
-        return $invoice->render($invoiceEntity->invoice_number.'.pdf','D');
+        return $invoice->render($invoiceEntity->description.'.pdf','D');
     }
 
     public function list(): JsonResponse

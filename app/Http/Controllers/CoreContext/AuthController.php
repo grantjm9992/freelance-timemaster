@@ -88,8 +88,8 @@ class AuthController extends Controller
         }
 
         $company = Company::create([
-            'name' => $request->company_name,
-            'number_of_employees' => $request->number_of_employees ?? 0,
+            'name' => $request->name . ' ' . $request->surname,
+            'number_of_employees' => 1,
         ]);
 
         $user = User::create([

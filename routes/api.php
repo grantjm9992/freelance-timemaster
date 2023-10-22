@@ -41,7 +41,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('set-password', 'setPassword');
 });
 Route::controller( InvoiceController::class)->prefix('invoices/')->group(function() {
-    Route::get('download', 'download');
+    Route::get('{id}/download', 'download');
 });
 Route::middleware('jwt.verify')->group(function() {
 
