@@ -41,7 +41,7 @@ class ClientsController extends Controller
 
     public function find(string $id): JsonResponse
     {
-        $client = Clients::find($id);
+        $client = Clients::find($id)->with('projects')->first()->toArray();
         $address = Address::query()
             ->where('type', 'CLIENT')
             ->where('resource_id', $id)

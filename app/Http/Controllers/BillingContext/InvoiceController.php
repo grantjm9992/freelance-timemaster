@@ -93,4 +93,12 @@ class InvoiceController
             'data' => $objects,
         ]);
     }
+
+    public function find(string $id): JsonResponse
+    {
+        $objects = Invoice::find($id);
+        return new JsonResponse([
+            'data' => $objects,
+        ]);
+    }
 }

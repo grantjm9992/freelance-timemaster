@@ -13,7 +13,8 @@ class AddressController
     {
         $user = Auth::user()->toArray();
         $request->validate([
-            'client_id' => 'string',
+            'type' => 'string',
+            'resource_id' => 'string',
             'address' => 'string',
             'city' => 'string',
             'county' => 'string',
@@ -23,8 +24,6 @@ class AddressController
 
         $requestArray = $request->toArray();
         $requestArray['company_id'] = $user['company_id'];
-        $requestArray['resource_id'] = $requestArray['client_id'];
-        $requestArray['type'] = 'CLIENT';
         Address::create($requestArray);
         return new JsonResponse();
     }

@@ -61,12 +61,13 @@ Route::middleware('jwt.verify')->group(function() {
         Route::controller( InvoiceController::class)->prefix('invoices/')->group(function() {
             Route::post('', 'create');
             Route::get('', 'list');
+            Route::get('{id}', 'find');
             // Route::get('download', 'download');
         });
         Route::controller( AddressController::class)->prefix('addresses/')->group(function() {
             Route::post('', 'create');
             Route::get('', 'list');
-            Route::put('{id}', 'update');
+            Route::post('{id}', 'update');
             // Route::get('download', 'download');
         });
 

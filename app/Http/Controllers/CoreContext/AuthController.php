@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CoreContext;
 
 use App\Http\Controllers\Controller;
 use App\Mail\ConfirmRegistration;
+use App\Models\BillingContext\Address;
 use App\Models\CoreContext\Company;
 use App\Models\CoreContext\Subscription;
 use App\Models\CoreContext\User;
@@ -48,6 +49,10 @@ class AuthController extends Controller
 
         $user = Auth::user()->toArray();
         $company = Company::query()->where('id', $user['company_id'])->with('subscription')->get()->first();
+        $address = Address::query()
+            ->where('type', 'COMPANY')
+            ->where('resource_id', $user['company_id'])
+            ->get()->first();
 
         $check = Check::query()
             ->where('user_id', $user['id'])
@@ -59,6 +64,7 @@ class AuthController extends Controller
             'user' => $user,
             'check' => $check,
             'company' => $company,
+            'address' => $address,
             'authorisation' => [
                 'token' => $token,
                 'type' => 'bearer',
@@ -179,10 +185,15 @@ class AuthController extends Controller
             ->where('status', CheckStatus::open())
             ->first();
         $company = Company::query()->where('id', $user['company_id'])->with('subscription')->get()->first();
+        $address = Address::query()
+            ->where('type', 'COMPANY')
+            ->where('resource_id', $user['company_id'])
+            ->get()->first();
         return response()->json([
             'status' => 'success',
             'user' => $user,
             'check' => $check,
+            'address' => $address,
             'company' => $company,
             'authorisation' => [
                 'token' => Auth::refresh(),
