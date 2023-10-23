@@ -72,6 +72,30 @@ class InvoiceController
     public function updateStatus()
     {}
 
+    public function statistics(): JsonResponse
+    {
+        $user = Auth::user()->toArray();
+        $objects = Invoice::query()
+            ->where('company_id', $user['company_id'])
+            ->get()
+            ->all();
+
+        $total = 0;
+        foreach ($objects as $object) {
+            $total += (float)$object->total_including_tax;
+        }
+
+        $pending = array_filter($objects, function ($a) {
+            return $a->status === 'PENDING';
+        });
+
+        return response()->json([
+            'total' => $total,
+            'count' => count($objects),
+            'pending' => count($pending),
+        ]);
+    }
+
     public function delete(string $id): JsonResponse
     {
         Invoice::destroy($id);
