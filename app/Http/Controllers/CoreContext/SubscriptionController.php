@@ -38,7 +38,7 @@ class SubscriptionController extends Controller
         }
         $user->updateDefaultPaymentMethod($paymentMethod);
 
-        $user->newSubscription('Monthly', 'price_1NTNgtIE24BO5pGyDq8DZ8gy')->create($user->defaultPaymentMethod()->asStripePaymentMethod());
+        $user->newSubscription('Monthly', 'price_1O4UnfIE24BO5pGydCfnUnP1')->create($user->defaultPaymentMethod()->asStripePaymentMethod());
 
         $types = [];
         $availableTypes = (new ReflectionClass(SubscriptionType::class))->getConstants();
