@@ -99,13 +99,15 @@ class AuthController extends Controller
             'company_id' => $company->id,
             'user_role' => 'company_admin',
         ]);
+        $user->setAttribute('email_confirmed', 1);
+        $user->save();
 
         $company->admin_user_id = $user->id;
         $company->save();
 
         $token = Auth::login($user);
 
-        Mail::to($user->email)->send(new ConfirmRegistration(base64_encode($user->id)));
+        // Mail::to($user->email)->send(new ConfirmRegistration(base64_encode($user->id)));
 
         return response()->json([
             'status' => 'success',
