@@ -21,8 +21,8 @@ return new class extends Migration
             $table->uuid('task_id')->nullable();
             $table->uuid('project_id')->nullable();
             $table->uuid('client_id')->nullable();
-            $table->timestamp('date_started');
-            $table->timestamp('date_ended');
+            $table->timestamp('date_started')->nullable();
+            $table->timestamp('date_ended')->nullable();
         });
     }
 
