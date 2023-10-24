@@ -95,11 +95,7 @@ return [
         ],
         'mongodb' => [
             'driver' => 'mongodb',
-            'host' => env('MONGO_HOST', 'mongodb'),
-            'port' => env('MONGO_PORT', 27017),
-            'database' => env('MONGO_DATABASE', 'laravel'),
-            'username' => env('MONGO_USERNAME', 'admin'),
-            'password' => env('MONGO_PASSWORD', 'p4ssw0rd'),
+            'dsn' => env('DB_URI', 'mongodb+srv://username:password@<atlas-cluster-uri>/myappdb?retryWrites=true&w=majority'),
         ],
 
     ],
