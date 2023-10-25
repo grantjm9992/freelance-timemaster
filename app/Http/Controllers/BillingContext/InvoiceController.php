@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Konekt\PdfInvoice\InvoicePrinter;
+use Ramsey\Uuid\Uuid;
 
 class InvoiceController
 {
@@ -37,6 +38,7 @@ class InvoiceController
         $requestArray = $request->toArray();
         $requestArray['company_id'] = $user['company_id'];
         $requestArray['user_id'] = $user['id'];
+        $requestArray['id'] = Uuid::uuid4()->toString();
         Invoice::create($requestArray);
         return new JsonResponse();
     }
@@ -139,7 +141,7 @@ class InvoiceController
         $invoice->addTitle("Important Notice");
         $invoice->addParagraph("No item will be replaced or refunded if you don't have the invoice with you.");
 
-        return $invoice->render($invoiceEntity->description.'.pdf','D');
+        return $invoice->render("$invoiceEntity->description.pdf",'D');
     }
 
     public function list(): JsonResponse

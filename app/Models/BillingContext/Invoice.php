@@ -13,6 +13,7 @@ class Invoice extends Model
 
     protected $connection = 'mongodb';
     protected $fillable = [
+        'id',
         'company_id',
         'user_id',
         'client_id',
