@@ -80,19 +80,27 @@ class InvoiceController
             ->get()
             ->all();
 
+        $paid = array_filter($objects, function ($a) {
+            return $a->status === 'PAID';
+        });
         $total = 0;
-        foreach ($objects as $object) {
-            $total += (float)$object->total_including_tax;
+        foreach ($paid as $object) {
+            $total += (float)$object->total+(float)$object->tax_applied;
         }
 
         $pending = array_filter($objects, function ($a) {
             return $a->status === 'PENDING';
         });
+        $totalPending = 0;
+        foreach ($pending as $object) {
+            $totalPending += (float)$object->total+(float)$object->tax_applied;
+        }
 
         return response()->json([
             'total' => $total,
-            'count' => count($objects),
-            'pending' => count($pending),
+            'totalCount' => count($paid),
+            'pending' => $totalPending,
+            'pendingCount' => count($pending),
         ]);
     }
 
