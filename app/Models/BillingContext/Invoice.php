@@ -3,10 +3,14 @@
 namespace App\Models\BillingContext;
 
 use App\Traits\Uuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 class Invoice extends Model
 {
+    use Uuids;
+    use HasFactory;
+
     protected $connection = 'mongodb';
     protected $fillable = [
         'company_id',
