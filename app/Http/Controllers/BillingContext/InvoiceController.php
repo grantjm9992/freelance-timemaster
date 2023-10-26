@@ -144,11 +144,30 @@ class InvoiceController
         return $invoice->render("$invoiceEntity->description.pdf",'D');
     }
 
-    public function list(): JsonResponse
+    public function list(Request $request): JsonResponse
     {
+        $clientId = $request->query->get('client_id');
+        $projectId = $request->query->get('project_id');
+        $dateFrom = $request->query->get('date_from');
+        $dateTo = $request->query->get('date_to');
         $user = Auth::user()->toArray();
-        $objects = Invoice::query()
-            ->where('company_id', $user['company_id'])
+        $query = Invoice::query()
+            ->where('company_id', $user['company_id']);
+
+        if ($clientId) {
+            $query->where('client_id', $clientId);
+        }
+        if ($projectId) {
+            $query->where('project_id', $projectId);
+        }
+        if ($dateFrom) {
+            $query->where('create_date', '>=', $clientId);
+        }
+        if ($dateTo) {
+            $query->where('create_date', '<=', $dateTo);
+        }
+
+        $objects = $query
             ->get()
             ->all();
         return new JsonResponse([

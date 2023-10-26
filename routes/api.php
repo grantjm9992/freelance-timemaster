@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BillingContext\AddressController;
+use App\Http\Controllers\BillingContext\ContractController;
 use App\Http\Controllers\BillingContext\InvoiceController;
 use App\Http\Controllers\CoreContext\AuthController;
 use App\Http\Controllers\CoreContext\CompanyController;
@@ -62,6 +63,13 @@ Route::middleware('jwt.verify')->group(function() {
             Route::post('', 'create');
             Route::get('', 'list');
             Route::get('statistics', 'statistics');
+            Route::get('{id}', 'find');
+            Route::post('{id}', 'update');
+            Route::delete('{id}', 'delete');
+        });
+        Route::controller( ContractController::class)->prefix('contracts/')->group(function() {
+            Route::post('', 'create');
+            Route::get('', 'list');
             Route::get('{id}', 'find');
             Route::post('{id}', 'update');
             Route::delete('{id}', 'delete');
