@@ -103,8 +103,8 @@ class CheckController extends Controller
         $this->validate($request, [
             'status' => 'required|string',
             'summary' => 'string',
-            'task_id' => 'string',
-            'project_id' => 'string',
+            'task_id' => 'string|nullable',
+            'project_id' => 'string|nullable',
             'client_id' => 'string',
             'date_started' => 'required|string',
             'date_ended' => 'required|string',

@@ -18,7 +18,7 @@ class Check extends Model
     use Uuids;
 
     protected $appends = [
-        'start', 'end', 'title', 'resourceId', 'classNames',
+        'start', 'end', 'title', 'resourceId', 'classNames', 'clientName',
     ];
 
     protected $fillable = [
@@ -45,7 +45,7 @@ class Check extends Model
 
     public function getTitleAttribute(): string
     {
-        return $this->tasks ? $this->tasks->name : 'ok';
+        return $this->tasks ? $this->tasks->name : $this->getAttribute('summary') ?? 'Automatically tracked time';
     }
 
     public function getStartAttribute(): ?string
@@ -68,12 +68,22 @@ class Check extends Model
         return $this->date_ended ? [] : ['progress-bar', 'progress-bar-striped', 'active'];
     }
 
+    public function getClientNameAttribute(): string
+    {
+        return $this->client ? $this->client->name : '';
+    }
+
     public function tasks(): BelongsTo
     {
         return $this->belongsTo(Tasks::class, 'task_id');
     }
 
-    public function user()
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Clients::class, 'client_id');
+    }
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
