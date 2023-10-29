@@ -125,8 +125,8 @@ class CheckController extends Controller
         $this->validate($request, [
             'status' => 'required|string',
             'summary' => 'string',
-            'task_id' => 'string',
-            'project_id' => 'string',
+            'task_id' => 'string|nullable',
+            'project_id' => 'string|nullable',
             'client_id' => 'string',
             'date_started' => 'required|string',
             'date_ended' => 'required|string',
@@ -173,6 +173,7 @@ class CheckController extends Controller
             'task_id' => 'string',
             'project_id' => 'string',
             'client_id' => 'string',
+            'summary' => 'string',
         ]);
 
         $dateStarted = Carbon::now()->format('Y-m-d H:i:s');
@@ -186,6 +187,7 @@ class CheckController extends Controller
             'project_id' => $request->project_id,
             'client_id' => $request->client_id,
             'date_started' => $dateStarted,
+            'summary' => $request->summary,
         ]);
 
         return new JsonResponse([
