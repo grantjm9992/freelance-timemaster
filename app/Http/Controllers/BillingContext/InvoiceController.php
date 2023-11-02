@@ -133,7 +133,7 @@ class InvoiceController
         }
 
         $invoice->addTotal("Total", $invoiceEntity->sub_total, is_null($invoiceEntity->tax_rate));
-        if ($invoiceEntity->tax_rate) {
+        if ($invoiceEntity->tax_rate && (int)$invoiceEntity->tax_rate !== 0) {
             $invoice->addTotal("VAT $invoiceEntity->tax_rate%", $invoiceEntity->tax_applied);
             $invoice->addTotal("Total due", $invoiceEntity->total_including_tax,true);
         }
@@ -141,7 +141,7 @@ class InvoiceController
         $invoice->addTitle("Important Notice");
         $invoice->addParagraph("No item will be replaced or refunded if you don't have the invoice with you.");
 
-        return $invoice->render("$invoiceEntity->description.pdf",'D');
+        return $invoice->render("$invoiceEntity->title.pdf",'D');
     }
 
     public function list(Request $request): JsonResponse
